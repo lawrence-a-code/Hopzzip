@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef2f5;
+            padding: 20px;
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .card {
+            width: 60%;
+            margin: auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        p {
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+        b {
+            color: #37474f;
+        }
+
+        hr {
+            margin: 20px 0;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        textarea {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            resize: none;
+        }
+
+        button {
+            margin-top: 15px;
+            width: 100%;
+            padding: 12px;
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #b71c1c;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h2>Patient Details</h2>
+
+    <p><b>Name:</b> {{ token.patient.name }}</p>
+    <p><b>Age:</b> {{ token.patient.age }}</p>
+    <p><b>Gender:</b> {{ token.patient.gender }}</p>
+    <p><b>Mobile:</b> {{ token.patient.mobile }}</p>
+    <p><b>Token No:</b> {{ token.token_number }}</p>
+
+    <hr>
+
+    <h3>Add Prescription</h3>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Diagnosis</label>
+        <textarea name="diagnosis" required></textarea>
+
+        <label>Medicines</label>
+        <textarea name="medicines" required></textarea>
+
+        <button type="submit">Save Prescription</button>
+    </form>
+
+</div>
+
+</body>
+</html>

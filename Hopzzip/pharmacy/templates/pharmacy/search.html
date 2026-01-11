@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pharmacy</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f8;
+            padding: 20px;
+        }
+
+        .box {
+            width: 60%;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+        }
+
+        .success {
+            margin-top: 20px;
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>Pharmacy</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="token_number" placeholder="Enter Token Number" required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if prescription %}
+    <div class="success">
+        <p><b>Patient:</b> {{ prescription.token.patient.name }}</p>
+        <p><b>Diagnosis:</b> {{ prescription.diagnosis }}</p>
+        <p><b>Medicines:</b></p>
+        <p>{{ prescription.medicines }}</p>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #f4f7fb;
+}
+
+.container {
+    max-width: 500px;
+    margin: 80px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.success-icon {
+    font-size: 60px;
+    color: #28a745;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.details {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.details p {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #333;
+}
+
+.details span {
+    font-weight: bold;
+    color: #000;
+}
+
+.token-box {
+    margin: 20px 0;
+    padding: 15px;
+    background: #eaf7ff;
+    border-left: 5px solid #007bff;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #0056b3;
+}

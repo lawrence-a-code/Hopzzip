@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hopzzip Hospital</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header class="topbar">
+    <div class="logo-area">
+        <img src="{% static 'images/logo.png' %}" alt="Hopzzip Logo">
+        <span>Hopzzip Hospital</span>
+    </div>
+
+    <div class="top-actions">
+        <a href="#">Login</a>
+    </div>
+</header>
+
+<div class="container">
+    <aside class="sidebar">
+        <h3>Modules</h3>
+        <ul>
+            <li>🏠 Home</li>
+            <li>🎟 Book Token</li>
+            <li>👨‍⚕ Doctor</li>
+            <li>💊 Pharmacy</li>
+            <li>📊 Serving</li>
+            <li>ℹ About</li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        <h1>Welcome to Hopzzip Hospital</h1>
+        <p>Your smart hospital token & management system</p>
+
+        <button class="book-btn">➕ Book Token</button>
+    </main>
+</div>
+
+<!-- JS -->
+<script src="{% static 'js/static.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Token Slip</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .slip {
+            background: #fff;
+            width: 360px;
+            padding: 20px;
+            border: 2px dashed #333;
+            border-radius: 10px;
+        }
+
+        .hospital-name {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 13px;
+            color: gray;
+            margin-bottom: 15px;
+        }
+
+        .token-box {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .token-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #0d6efd;
+        }
+
+        .row {
+            font-size: 14px;
+            margin: 6px 0;
+        }
+
+        .row b {
+            width: 110px;
+            display: inline-block;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 15px;
+            color: gray;
+        }
+
+        .btns {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        button, a {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            margin: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .print-btn {
+            background: #198754;
+            color: white;
+        }
+
+        .new-btn {
+            background: #0d6efd;
+            color: white;
+        }
+
+        /* PRINT MODE */
+        @media print {
+            body {
+                background: white;
+            }
+            .btns {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="slip">
+    <div class="hospital-name">🏥 Hopzzip Hospital</div>
+    
+
+    <hr>
+
+    <div class="row"><b>Patient</b>: {{ token.patient.name }}</div>
+    <div class="row"><b>Age</b>: {{ token.patient.age }}</div>
+    <div class="row"><b>Gender</b>: {{ token.patient.gender }}</div>
+    <div class="row"><b>Mobile</b>: {{ token.patient.mobile }}</div>
+    <div class="row"><b>Address</b>: {{ token.patient.address }}</div>
+
+    <hr>
+
+    <div class="row"><b>Doctor</b>: {{ token.doctor.name }}</div>
+    <div class="row"><b>Visit Date</b>: {{ token.visit_date }}</div>
+    <div class="row"><b>Expected visit Time</b>:{{expected_time}}</div>
+
+    <div class="token-box">
+        <div>Token Number</div>
+        <div class="token-number">{{ token.token_number }}</div>
+    </div>
+
+    <div class="footer">
+        Please wait for your token number  
+        <br>Thank you 🙏
+    </div>
+
+    <div class="btns">
+        <button class="print-btn" onclick="window.print()">🖨 Print Token</button>
+        <a class="new-btn" href="/tokens/create/">➕ New Token</a>
+    </div>
+</div>
+
+</body>
+</html>
