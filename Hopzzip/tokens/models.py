@@ -38,5 +38,5 @@ class Token(models.Model):
 
         super().save(*args, **kwargs)
 
-    def _str_(self):
+    def __str__(self):
         return f"Token {self.token_number} - {self.patient.name} ({self.doctor.name})"

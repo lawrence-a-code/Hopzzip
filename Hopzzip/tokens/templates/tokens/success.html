@@ -1,140 +1,236 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Token Slip</title>
+{% extends 'frontend/base.html' %}
+{% load static %}
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+{% block content %}
+<style>
+    /* Scoped styles for the token slip */
+    .slip-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+        /* Center vertically in the content area */
+        padding: 20px;
+    }
+
+    .slip {
+        background: #fff;
+        width: 360px;
+        padding: 30px;
+        border: 2px dashed #333;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+
+    .hospital-name {
+        text-align: center;
+        font-size: 22px;
+        font-weight: bold;
+        color: #d32f2f;
+        margin-bottom: 5px;
+    }
+
+    .subtitle {
+        text-align: center;
+        font-size: 13px;
+        color: #777;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .token-box {
+        text-align: center;
+        margin: 25px 0;
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+    }
+
+    .token-label {
+        font-size: 14px;
+        color: #555;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .token-number {
+        font-size: 48px;
+        font-weight: 800;
+        color: #d32f2f;
+        line-height: 1;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-bottom: 8px;
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 4px;
+    }
+
+    .info-row:last-child {
+        border-bottom: none;
+    }
+
+    .info-label {
+        font-weight: 600;
+        color: #555;
+    }
+
+    .info-value {
+        color: #333;
+        text-align: right;
+        font-weight: 500;
+    }
+
+    .divider {
+        border-top: 2px dashed #ddd;
+        margin: 20px 0;
+    }
+
+    .footer {
+        text-align: center;
+        font-size: 12px;
+        margin-top: 20px;
+        color: #888;
+        font-style: italic;
+    }
+
+    .btns {
+        text-align: center;
+        margin-top: 25px;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .btn-action {
+        padding: 10px 18px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .print-btn {
+        background: #198754;
+        color: white;
+    }
+
+    .print-btn:hover {
+        background: #157347;
+    }
+
+    .new-btn {
+        background: #0d6efd;
+        color: white;
+    }
+
+    .new-btn:hover {
+        background: #0b5ed7;
+    }
+
+    /* PRINT MODE */
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        .slip-container,
+        .slip-container * {
+            visibility: visible;
+        }
+
+        .slip-container {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            /* Removing flex centering for print */
         }
 
         .slip {
-            background: #fff;
-            width: 360px;
-            padding: 20px;
-            border: 2px dashed #333;
-            border-radius: 10px;
+            margin: 0 auto;
+            border: 2px solid #000;
+            /* Solid border for print */
+            box-shadow: none;
         }
 
-        .hospital-name {
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 5px;
+        .btns,
+        .sidebar,
+        .top-header {
+            /* Hiding other dashboard elements specifically if needed */
+            display: none !important;
         }
+    }
+</style>
 
-        .subtitle {
-            text-align: center;
-            font-size: 13px;
-            color: gray;
-            margin-bottom: 15px;
-        }
+<div class="slip-container fade-in">
+    <div class="slip">
+        <div class="hospital-name">🏥 Hopzzip Hospital</div>
+        <div class="subtitle">Outpatient Department</div>
 
-        .token-box {
-            text-align: center;
-            margin: 20px 0;
-        }
+        <div class="divider"></div>
 
-        .token-number {
-            font-size: 48px;
-            font-weight: bold;
-            color: #0d6efd;
-        }
+        <div class="info-row">
+            <span class="info-label">Patient</span>
+            <span class="info-value">{{ token.patient.name }}</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Age / Gender</span>
+            <span class="info-value">{{ token.patient.age }} / {{ token.patient.gender }}</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Mobile</span>
+            <span class="info-value">{{ token.patient.mobile }}</span>
+        </div>
 
-        .row {
-            font-size: 14px;
-            margin: 6px 0;
-        }
+        <div class="divider"></div>
 
-        .row b {
-            width: 110px;
-            display: inline-block;
-        }
+        <div class="info-row">
+            <span class="info-label">Doctor</span>
+            <span class="info-value">{{ token.doctor.name }}</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Visit Date</span>
+            <span class="info-value">{{ token.visit_date }}</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Expected Time</span>
+            <span class="info-value" style="color: #d32f2f; font-weight: bold;">{{ expected_time }}</span>
+        </div>
 
-        .footer {
-            text-align: center;
-            font-size: 12px;
-            margin-top: 15px;
-            color: gray;
-        }
+        <div class="token-box">
+            <div class="token-label">Your Token Number</div>
+            <div class="token-number">{{ token.token_number }}</div>
+        </div>
 
-        .btns {
-            text-align: center;
-            margin-top: 15px;
-        }
+        <div class="footer">
+            Please wait for your turn.<br>Thank you and Get Well Soon! 🙏
+        </div>
 
-        button, a {
-            padding: 8px 14px;
-            border: none;
-            border-radius: 6px;
-            margin: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .print-btn {
-            background: #198754;
-            color: white;
-        }
-
-        .new-btn {
-            background: #0d6efd;
-            color: white;
-        }
-
-        /* PRINT MODE */
-        @media print {
-            body {
-                background: white;
-            }
-            .btns {
-                display: none;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="slip">
-    <div class="hospital-name">🏥 Hopzzip Hospital</div>
-    
-
-    <hr>
-
-    <div class="row"><b>Patient</b>: {{ token.patient.name }}</div>
-    <div class="row"><b>Age</b>: {{ token.patient.age }}</div>
-    <div class="row"><b>Gender</b>: {{ token.patient.gender }}</div>
-    <div class="row"><b>Mobile</b>: {{ token.patient.mobile }}</div>
-    <div class="row"><b>Address</b>: {{ token.patient.address }}</div>
-
-    <hr>
-
-    <div class="row"><b>Doctor</b>: {{ token.doctor.name }}</div>
-    <div class="row"><b>Visit Date</b>: {{ token.visit_date }}</div>
-    <div class="row"><b>Expected visit Time</b>:{{expected_time}}</div>
-
-    <div class="token-box">
-        <div>Token Number</div>
-        <div class="token-number">{{ token.token_number }}</div>
-    </div>
-
-    <div class="footer">
-        Please wait for your token number  
-        <br>Thank you 🙏
-    </div>
-
-    <div class="btns">
-        <button class="print-btn" onclick="window.print()">🖨 Print Token</button>
-        <a class="new-btn" href="/tokens/create/">➕ New Token</a>
+        <div class="btns">
+            <button class="btn-action print-btn" onclick="window.print()">
+                <i class="fas fa-print"></i> Print
+            </button>
+            <a class="btn-action new-btn" href="{% url 'create_token' %}">
+                <i class="fas fa-plus"></i> New Token
+            </a>
+        </div>
     </div>
 </div>
-
-</body>
-</html>
+{% endblock %}

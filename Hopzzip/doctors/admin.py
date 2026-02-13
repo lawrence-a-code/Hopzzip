@@ -1,12 +1,13 @@
 from django.contrib import admin
-
-# Register your models here.
-from .models import Doctor
-
-
-from django.contrib import admin
 from .models import Doctor
 
 @admin.register(Doctor)
 class DoctorAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'specialization', 'start_time', 'end_time')
+    list_display = (
+        'id',
+        'name',
+        'specialization',
+        'start_time',
+        'consultation_minutes',
+        'delay_minutes',
+    )

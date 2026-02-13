@@ -1,48 +1,102 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Hopzzip Hospital</title>
+{% extends 'frontend/base.html' %}
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
 
-<header class="topbar">
-    <div class="logo-area">
-        <img src="{% static 'images/logo.png' %}" alt="Hopzzip Logo">
-        <span>Hopzzip Hospital</span>
-    </div>
-
-    <div class="top-actions">
-        <a href="#">Login</a>
-    </div>
-</header>
-
-<div class="container">
-    <aside class="sidebar">
-        <h3>Modules</h3>
-        <ul>
-            <li>🏠 Home</li>
-            <li>🎟 Book Token</li>
-            <li>👨‍⚕ Doctor</li>
-            <li>💊 Pharmacy</li>
-            <li>📊 Serving</li>
-            <li>ℹ About</li>
-        </ul>
-    </aside>
-
-    <main class="content">
+{% block content %}
+<!-- Welcome Section -->
+<div class="card hover-pop welcome-card">
+    <div class="welcome-content">
+        <div class="welcome-icon">
+            <i class="fas fa-home"></i>
+        </div>
         <h1>Welcome to Hopzzip Hospital</h1>
-        <p>Your smart hospital token & management system</p>
-
-        <button class="book-btn">➕ Book Token</button>
-    </main>
+        <p>Professional Healthcare Management System</p>
+    </div>
 </div>
 
-<!-- JS -->
-<script src="{% static 'js/static.js' %}"></script>
-</body>
-</html>
+<!-- Quick Actions Grid -->
+<div class="cards-grid">
+    <!-- Book Token Card -->
+    <!-- Book Token Card -->
+    <a href="{% url 'create_token' %}" class="card hover-pop action-card"
+        style="text-decoration: none; display: block;">
+        <div class="card-icon">
+            <i class="fas fa-ticket-alt"></i>
+        </div>
+        <h3>Book Token</h3>
+        <p>Schedule your appointment quickly and easily</p>
+    </a>
+
+    <!-- About Hospital Card -->
+    <div class="card hover-pop action-card" data-page="about">
+        <div class="card-icon">
+            <i class="fas fa-info-circle"></i>
+        </div>
+        <h3>About Hospital</h3>
+        <p>Learn more about our facilities and services</p>
+    </div>
+
+    <!-- Contact Card -->
+    <div class="card hover-pop action-card" data-page="contact">
+        <div class="card-icon">
+            <i class="fas fa-phone-alt"></i>
+        </div>
+        <h3>Contact Us</h3>
+        <p>Get in touch with our support team</p>
+    </div>
+
+    <!-- Doctor Portal Card -->
+    <a href="{% url 'doctor_login' %}" class="card hover-pop action-card"
+        style="text-decoration: none; display: block; color: inherit;">
+        <div class="card-icon">
+            <i class="fas fa-stethoscope"></i>
+        </div>
+        <h3>Doctor Portal</h3>
+        <p>Access doctor dashboard and patient records</p>
+    </a>
+
+    <!-- Pharmacy Card -->
+    <a href="{% url 'pharmacy_login' %}" class="card hover-pop action-card"
+        style="text-decoration: none; display: block; color: inherit;">
+        <div class="card-icon">
+            <i class="fas fa-pills"></i>
+        </div>
+        <h3>Pharmacy</h3>
+        <p>Manage prescriptions and medicine inventory</p>
+    </a>
+
+    <!-- Emergency Card -->
+    <div class="card hover-pop emergency-card">
+        <div class="card-icon">
+            <i class="fas fa-phone-alt"></i>
+        </div>
+        <h3>Emergency</h3>
+        <p>24/7 Emergency Services Available</p>
+        <div class="emergency-number">
+            <i class="fas fa-phone"></i> 911
+        </div>
+    </div>
+</div>
+
+<!-- Recent Tokens Section -->
+
+
+<!-- Stats Section -->
+<div class="stats-grid">
+    <div class="stat-card hover-pop">
+        <div class="stat-value">24/7</div>
+        <div class="stat-label">Emergency Care</div>
+    </div>
+    <div class="stat-card hover-pop">
+        <div class="stat-value">50+</div>
+        <div class="stat-label">Expert Doctors</div>
+    </div>
+    <div class="stat-card hover-pop">
+        <div class="stat-value">200+</div>
+        <div class="stat-label">Hospital Beds</div>
+    </div>
+    <div class="stat-card hover-pop">
+        <div class="stat-value">15+</div>
+        <div class="stat-label">Departments</div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,131 @@
+<div class="card fade-in">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <div>
+            <h2 style="font-size: 24px; color: var(--gray-800); margin: 0; font-weight: 700;">Dashboard Overview</h2>
+            <p style="color: var(--gray-500); margin-top: 4px;">Welcome back, here's your patient list for today.</p>
+        </div>
+        <button onclick="window.location.reload()" class="btn btn-primary">
+            <i class="fas fa-sync-alt"></i> Refresh List
+        </button>
+    </div>
+
+    <div class="stats-grid" style="margin-bottom: 32px;">
+        <div class="stat-card hover-pop">
+            <div class="stat-value">{{ tokens|length }}</div>
+            <div class="stat-label">Total Patients Today</div>
+        </div>
+        <div class="stat-card hover-pop">
+            {% with waiting_count=0 %}
+            <!-- We will calculate this logic in view later or use created tag, for now just placeholder logic or JS is better, 
+                 but preserving user intent from previous edit: -->
+            <div class="stat-value" id="waiting-count">
+                {% comment %} Simple counter simulation in template is hard without custom tag, defaulting to JS count
+                {% endcomment %}
+                -
+            </div>
+            {% endwith %}
+            <div class="stat-label">Waiting in Queue</div>
+        </div>
+    </div>
+
+    <div class="card" style="border: none; box-shadow: none; padding: 0;">
+        <h3
+            style="font-size: 18px; color: var(--gray-800); margin-bottom: 20px; padding-left: 10px; border-left: 4px solid var(--primary-red);">
+            Today's Appointments</h3>
+
+        <div style="overflow-x: auto; border-radius: 12px; border: 1px solid var(--gray-200);">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr
+                        style="background-color: var(--gray-50); border-bottom: 2px solid var(--gray-200); text-align: left;">
+                        <th style="padding: 16px; color: var(--gray-600); font-weight: 600; width: 100px;">Token</th>
+                        <th style="padding: 16px; color: var(--gray-600); font-weight: 600;">Patient Name</th>
+                        <th style="padding: 16px; color: var(--gray-600); font-weight: 600;">Status</th>
+                        <th style="padding: 16px; color: var(--gray-600); font-weight: 600; text-align: right;">Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for token in tokens %}
+                    <tr style="border-bottom: 1px solid var(--gray-100); transition: background-color 0.2s;">
+                        <td style="padding: 16px;">
+                            <span
+                                style="background-color: var(--primary-red-light); color: var(--primary-red); padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 14px;">
+                                #{{ token.token_number }}
+                            </span>
+                        </td>
+                        <td style="padding: 16px; font-weight: 500; color: var(--gray-800);">{{ token.patient.name }}
+                        </td>
+                        <td style="padding: 16px;">
+                            <span class="status-badge" data-status="{{ token.status }}" style="
+                                padding: 6px 12px; 
+                                border-radius: 20px; 
+                                font-size: 12px; 
+                                font-weight: 600;
+                                display: inline-block;
+                            ">
+                                {{ token.status }}
+                            </span>
+                        </td>
+                        <td style="padding: 16px; text-align: right;">
+                            {% if token.status != 'Done' %}
+                            <a href="{% url 'token_detail' token.id %}" target="_blank" class="btn btn-primary"
+                                style="padding: 8px 16px; font-size: 13px;">
+                                <i class="fas fa-stethoscope"></i> Consult
+                            </a>
+                            {% else %}
+                            <a href="{% url 'token_detail' token.id %}" target="_blank" class="btn"
+                                style="background-color: var(--gray-100); color: var(--gray-600); padding: 8px 16px; font-size: 13px;">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" style="padding: 40px; text-align: center;">
+                            <div style="display: flex; flex-direction: column; align-items: center; opacity: 0.6;">
+                                <i class="fas fa-calendar-check"
+                                    style="font-size: 48px; color: var(--gray-400); margin-bottom: 16px;"></i>
+                                <p style="color: var(--gray-600); font-size: 16px;">No appointments scheduled for today
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Simple script to colorize badges and count waiting based on rendered content
+    document.addEventListener('DOMContentLoaded', function () {
+        const badges = document.querySelectorAll('.status-badge');
+        let waitingCount = 0;
+
+        badges.forEach(badge => {
+            const status = badge.getAttribute('data-status');
+            if (status === 'Waiting') {
+                badge.style.backgroundColor = '#fef3c7'; // amber-100
+                badge.style.color = '#d97706'; // amber-600
+                waitingCount++;
+            } else if (status === 'Serving' || status === 'consulting') {
+                badge.style.backgroundColor = '#dbeafe'; // blue-100
+                badge.style.color = '#2563eb'; // blue-600
+            } else if (status === 'Done' || status === 'Completed') {
+                badge.style.backgroundColor = '#d1fae5'; // emerald-100
+                badge.style.color = '#059669'; // emerald-600
+            } else {
+                badge.style.backgroundColor = '#f3f4f6';
+                badge.style.color = '#6b7280';
+            }
+        });
+
+        const waitingCountEl = document.getElementById('waiting-count');
+        if (waitingCountEl) {
+            waitingCountEl.textContent = waitingCount;
+        }
+    });
+</script>

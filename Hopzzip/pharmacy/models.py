@@ -10,5 +10,5 @@ class Prescription(models.Model):
     medicines = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def _str_(self):
+    def __str__(self):
         return f"Prescription for Token {self.token.token_number}"
