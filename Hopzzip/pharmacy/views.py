@@ -8,12 +8,12 @@ def pharmacy_search(request):
     error = None
 
     if request.method == "POST":
-        token_number = request.POST.get("token_number")  # "1.1"
+        token_number = request.POST.get("token_number") 
 
         try:
             token = Token.objects.filter(
                 token_number=token_number,
-                status="Done"   # Doctor completed only
+                status="Done"  
             ).first()
 
             if not token:

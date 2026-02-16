@@ -14,7 +14,7 @@ def create_token(request):
         doctor_id = request.POST.get("doctor")
         visit_date = request.POST.get("visit_date")
 
-        # Patient
+
         patient, created = Patient.objects.get_or_create(
             name=patient_name,
             mobile=mobile,
@@ -28,7 +28,7 @@ def create_token(request):
         doctor = Doctor.objects.get(id=doctor_id)
         visit_date = datetime.strptime(visit_date, "%Y-%m-%d").date()
 
-        # Expected time calculation
+   
         today_count = Token.objects.filter(
             doctor=doctor,
             visit_date=visit_date
@@ -53,7 +53,7 @@ def create_token(request):
             status='Waiting'
         ).order_by('created_at').first()
 
-        # ✅ token_number AUTO GENERATED in models.py
+       
         token = Token.objects.create(
             patient=patient,
             doctor=doctor,

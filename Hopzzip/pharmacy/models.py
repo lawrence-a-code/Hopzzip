@@ -2,7 +2,7 @@ from django.db import models
 
 class Prescription(models.Model):
     token = models.OneToOneField(
-        "tokens.Token",    # 🔥 STRING
+        "tokens.Token",   
         on_delete=models.CASCADE,
         related_name="prescription"
     )

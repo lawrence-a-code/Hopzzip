@@ -14,7 +14,8 @@ class Token(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     visit_date = models.DateField()
 
-    # IMPORTANT – string format
+    
+    
     token_number = models.CharField(max_length=10, blank=True, null=True)
 
     status = models.CharField(
@@ -32,7 +33,7 @@ class Token(models.Model):
                 visit_date=self.visit_date
             ).count()
 
-            # doctor_id.token_count
+          
             next_count = today_tokens + 1
             self.token_number = f"{self.doctor.id}.{next_count}"
 
