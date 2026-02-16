@@ -63,13 +63,14 @@ ROOT_URLCONF = 'Hopzzip.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'ui'],
+        'DIRS': [BASE_DIR / 'frontend' / 'templates'],  # Changed this
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.csrf',
             ],
         },
     },
@@ -125,9 +126,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
+# Add this line to tell Django where to find static files
+STATICFILES_DIRS = [
+    BASE_DIR / 'frontend' / 'static',
+]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_URL = "/doctors/login/"
+LOGIN_REDIRECT_URL = "/doctors/dashboard/"
+LOGOUT_REDIRECT_URL = "/"

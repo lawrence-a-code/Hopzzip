@@ -1,144 +1,173 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Hospital Token Booking</title>
+{% extends 'frontend/base.html' %}
+{% load static %}
 
-    <style>
-        body {
-            margin: 0;
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: linear-gradient(to right, #d32f2f, #ffffff);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+{% block content %}
+<style>
+    /* Scoped styles for the form to blend with dashboard */
+    .booking-container {
+        max-width: 500px;
+        margin: 20px auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 24px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        border: 1px solid var(--gray-200);
+    }
 
-        .container {
-            width: 420px;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-        }
+    .booking-header {
+        text-align: center;
+        margin-bottom: 25px;
+    }
 
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
+    .booking-header .icon-wrapper {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+        color: white;
+        font-size: 28px;
+        box-shadow: 0 8px 16px rgba(220, 38, 38, 0.2);
+    }
 
-        .header h2 {
-            color: #b71c1c;
-            margin-bottom: 5px;
-        }
+    .booking-header h2 {
+        color: var(--gray-800);
+        margin-bottom: 5px;
+        font-size: 24px;
+    }
 
-        .header p {
-            font-size: 13px;
-            color: #777;
-        }
+    .booking-header p {
+        font-size: 14px;
+        color: var(--gray-600);
+    }
 
-        label {
-            font-weight: 600;
-            font-size: 14px;
-            color: #333;
-        }
+    .form-group {
+        margin-bottom: 16px;
+    }
 
-        input, select, textarea {
-            width: 100%;
-            padding: 9px;
-            margin-top: 6px;
-            margin-bottom: 14px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-        }
+    .form-label {
+        display: block;
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--gray-700);
+        margin-bottom: 8px;
+    }
 
-        input:focus, select:focus, textarea:focus {
-            border-color: #d32f2f;
-            outline: none;
-            box-shadow: 0 0 5px rgba(211,47,47,0.4);
-        }
+    .form-control {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 2px solid var(--gray-200);
+        font-size: 14px;
+        font-family: 'Poppins', sans-serif;
+        transition: all 0.2s ease;
+        box-sizing: border-box;
+    }
 
-        textarea {
-            resize: none;
-        }
+    .form-control:focus {
+        border-color: var(--primary-red);
+        outline: none;
+        box-shadow: 0 0 0 3px var(--primary-red-200);
+    }
 
-        button {
-            width: 100%;
-            background: #d32f2f;
-            color: white;
-            border: none;
-            padding: 11px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+    .btn-submit {
+        width: 100%;
+        background: linear-gradient(90deg, var(--primary-red), var(--primary-red-dark));
+        color: white;
+        border: none;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-top: 10px;
+        box-shadow: 0 4px 6px rgba(220, 38, 38, 0.2);
+    }
 
-        button:hover {
-            background: #b71c1c;
-            transform: translateY(-1px);
-        }
+    .btn-submit:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 12px rgba(220, 38, 38, 0.3);
+    }
 
-        .footer-note {
-            text-align: center;
-            font-size: 12px;
-            color: #777;
-            margin-top: 15px;
-        }
-    </style>
-</head>
+    .footer-note {
+        text-align: center;
+        font-size: 12px;
+        color: var(--gray-500);
+        margin-top: 20px;
+    }
+</style>
 
-<body>
-    <div class="container">
-        <div class="header">
-            <h2>Hospital Token Booking</h2>
-            <p>Quick & Easy Appointment System</p>
+<div class="booking-container fade-in">
+    <div class="booking-header">
+        <div class="icon-wrapper">
+            <i class="fas fa-ticket-alt"></i>
+        </div>
+        <h2>Book Appointment</h2>
+        <p>Schedule your visit with our specialists</p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="form-label">Patient Name</label>
+            <input type="text" name="patient_name" class="form-control" placeholder="Enter patient name" required>
         </div>
 
-        <form method="POST">
-            {% csrf_token %}
+        <div class="row" style="display: flex; gap: 15px;">
+            <div class="form-group" style="flex: 1;">
+                <label class="form-label">Age</label>
+                <input type="number" name="age" class="form-control" placeholder="Age" required>
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label class="form-label">Gender</label>
+                <select name="gender" class="form-control" required>
+                    <option value="">Select</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+        </div>
 
-            <label>Patient Name</label>
-            <input type="text" name="patient_name" placeholder="Enter patient name" required>
+        <div class="form-group">
+            <label class="form-label">Mobile Number</label>
+            <input type="text" name="mobile" class="form-control" placeholder="Enter mobile number" required>
+        </div>
 
-            <label>Age</label>
-            <input type="number" name="age" placeholder="Enter age" required>
+        <div class="form-group">
+            <label class="form-label">Address / Native</label>
+            <textarea name="address" class="form-control" rows="2" placeholder="Enter address" required></textarea>
+        </div>
 
-            <label>Mobile Number</label>
-            <input type="text" name="mobile" placeholder="Enter mobile number" required>
-
-            <label>Gender</label>
-            <select name="gender" required>
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-            </select>
-
-            <label>Address / Native</label>
-            <textarea name="address" rows="2" placeholder="Enter address" required></textarea>
-
-            <label>Doctor</label>
-            <select name="doctor" required>
+        <div class="form-group">
+            <label class="form-label">Doctor</label>
+            <select name="doctor" class="form-control" required>
                 <option value="">Select Doctor</option>
                 {% for d in doctors %}
-                    <option value="{{ d.id }}">
-                        {{ d.name }} ({{ d.specialization }})
-                    </option>
+                <option value="{{ d.id }}">
+                    {{ d.name }} ({{ d.specialization }})
+                </option>
                 {% endfor %}
             </select>
-
-            <label>Visit Date</label>
-            <input type="date" name="visit_date" required>
-
-            <button type="submit">Generate Token</button>
-        </form>
-
-        <div class="footer-note">
-            © Hospital Management System
         </div>
+
+        <div class="form-group">
+            <label class="form-label">Visit Date</label>
+            <input type="date" name="visit_date" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn-submit">
+            <i class="fas fa-check-circle" style="margin-right: 8px;"></i> Generate Token
+        </button>
+    </form>
+
+    <div class="footer-note">
+        © Hopzzip Hospital Management System
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

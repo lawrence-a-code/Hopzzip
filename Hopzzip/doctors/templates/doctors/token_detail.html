@@ -1,104 +1,304 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Patient Details</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Consultation | Hopzzip Hospital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #eef2f5;
-            padding: 20px;
+        :root {
+            --primary-red: #dc2626;
+            --primary-red-dark: #991b1b;
+            --primary-red-light: #fee2e2;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --white: #ffffff;
+            --shadow-red: 0 20px 35px -10px rgba(220, 38, 38, 0.15);
         }
 
-        h2, h3 {
-            text-align: center;
-            color: #2c3e50;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-800);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
         .card {
-            width: 60%;
-            margin: auto;
-            background-color: white;
-            padding: 25px;
+            background-color: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            gap: 8px;
+            border: none;
+            font-family: inherit;
         }
 
-        p {
-            font-size: 16px;
-            margin: 8px 0;
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark));
+            color: white;
+            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.2);
         }
 
-        b {
-            color: #37474f;
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
         }
 
-        hr {
-            margin: 20px 0;
+        .btn-secondary {
+            background-color: var(--white);
+            border: 1px solid var(--gray-200);
+            color: var(--gray-700);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gray-50);
+            border-color: var(--gray-300);
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: var(--primary-red);
         }
 
         label {
-            font-weight: bold;
-            margin-top: 10px;
             display: block;
-        }
-
-        textarea {
-            width: 100%;
-            height: 80px;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--gray-700);
             font-size: 14px;
-            resize: none;
         }
 
-        button {
-            margin-top: 15px;
-            width: 100%;
-            padding: 12px;
-            background-color: #d32f2f;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
         }
 
-        button:hover {
-            background-color: #b71c1c;
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-800);
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 850px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<div class="card">
+    <div class="container">
+        <div class="header">
+            <h1 class="page-title">Patient Consultation</h1>
+            <button onclick="window.close()" class="btn btn-secondary">
+                <i class="fas fa-times"></i> Close Window
+            </button>
+        </div>
 
-    <h2>Patient Details</h2>
+        {% if success %}
+        <div class="card" style="text-align: center; padding: 60px 20px; max-width: 600px; margin: 40px auto;">
+            <div
+                style="width: 80px; height: 80px; background-color: #d1fae5; color: #059669; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 24px;">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2 style="font-size: 24px; color: var(--gray-800); margin-bottom: 12px;">Consultation Completed</h2>
+            <p style="color: var(--gray-600); margin-bottom: 32px;">The diagnosis and prescription have been saved
+                successfully.</p>
 
-    <p><b>Name:</b> {{ token.patient.name }}</p>
-    <p><b>Age:</b> {{ token.patient.age }}</p>
-    <p><b>Gender:</b> {{ token.patient.gender }}</p>
-    <p><b>Mobile:</b> {{ token.patient.mobile }}</p>
-    <p><b>Token No:</b> {{ token.token_number }}</p>
+            <button onclick="window.close()" class="btn btn-primary">
+                Close This Window
+            </button>
+            <!-- Fallback if script blocked -->
+            <a href="{% url 'doctor_dashboard' %}" class="btn btn-secondary"
+                style="margin-top: 12px; display: inline-flex;">
+                Back to Dashboard
+            </a>
+        </div>
+        {% else %}
 
-    <hr>
+        <div class="grid-layout">
+            <!-- Patient Info Column -->
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+                <div class="card">
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                        <div
+                            style="width: 64px; height: 64px; background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark)); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 700; flex-shrink: 0;">
+                            {{ token.token_number }}
+                        </div>
+                        <div>
+                            <h2 style="font-size: 20px; color: var(--gray-800); margin-bottom: 4px;">{{
+                                token.patient.name }}</h2>
+                            <span
+                                style="font-size: 13px; color: var(--gray-500); background-color: var(--gray-100); padding: 4px 8px; border-radius: 4px; display: inline-block;">{{
+                                token.patient.gender }}, {{ token.patient.age }} Years</span>
+                        </div>
+                    </div>
 
-    <h3>Add Prescription</h3>
+                    <div
+                        style="border-top: 1px solid var(--gray-100); padding-top: 20px; display: flex; flex-direction: column; gap: 16px;">
+                        <div>
+                            <label
+                                style="color: var(--gray-500); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Contact</label>
+                            <div style="color: var(--gray-800); font-weight: 500;">{{ token.patient.mobile }}</div>
+                        </div>
+                        <div>
+                            <label
+                                style="color: var(--gray-500); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Address</label>
+                            <div style="color: var(--gray-800); font-weight: 500;">{{ token.patient.address }}</div>
+                        </div>
+                        <div>
+                            <label
+                                style="color: var(--gray-500); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Status</label>
+                            <span
+                                style="background-color: #dbeafe; color: #2563eb; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; display: inline-block; margin-top: 4px;">
+                                {{ token.status }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
 
-    <form method="POST">
-        {% csrf_token %}
+                <!-- Vitals (Placeholder) -->
+                <div class="card">
+                    <h3 style="font-size: 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-heartbeat" style="color: var(--primary-red);"></i> Vitals
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div style="text-align: center; padding: 12px; background: var(--gray-50); border-radius: 8px;">
+                            <div style="font-size: 11px; color: var(--gray-500);">BP</div>
+                            <div style="font-weight: 600;">--/--</div>
+                        </div>
+                        <div style="text-align: center; padding: 12px; background: var(--gray-50); border-radius: 8px;">
+                            <div style="font-size: 11px; color: var(--gray-500);">Pulse</div>
+                            <div style="font-weight: 600;">--</div>
+                        </div>
+                        <div style="text-align: center; padding: 12px; background: var(--gray-50); border-radius: 8px;">
+                            <div style="font-size: 11px; color: var(--gray-500);">Temp</div>
+                            <div style="font-weight: 600;">--</div>
+                        </div>
+                        <div style="text-align: center; padding: 12px; background: var(--gray-50); border-radius: 8px;">
+                            <div style="font-size: 11px; color: var(--gray-500);">Weight</div>
+                            <div style="font-weight: 600;">--</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <label>Diagnosis</label>
-        <textarea name="diagnosis" required></textarea>
+            <!-- Consultation Form -->
+            <div class="card">
+                <h3
+                    style="font-size: 18px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--gray-100); display: flex; align-items: center; gap: 12px;">
+                    <i class="fas fa-user-md" style="color: var(--primary-red);"></i> Reference & Prescription
+                </h3>
 
-        <label>Medicines</label>
-        <textarea name="medicines" required></textarea>
+                {% if token.status == 'Done' %}
+                <div style="opacity: 0.7;">
+                    {% if token.prescription_set.exists %}
+                    {% for prescription in token.prescription_set.all %}
+                    <div style="margin-bottom: 24px;">
+                        <label>Diagnosis</label>
+                        <div
+                            style="padding: 16px; background: var(--gray-50); border-radius: 8px; border: 1px solid var(--gray-200); white-space: pre-wrap;">
+                            {{ prescription.diagnosis }}</div>
+                    </div>
+                    <div style="margin-bottom: 24px;">
+                        <label>Medicines</label>
+                        <div
+                            style="padding: 16px; background: var(--gray-50); border-radius: 8px; border: 1px solid var(--gray-200); white-space: pre-wrap;">
+                            {{ prescription.medicines }}</div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div style="text-align: center; color: var(--gray-500); padding: 20px;">No prescription details
+                        available.</div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <div style="margin-bottom: 24px;">
+                        <label>Diagnosis / Clinical Notes</label>
+                        <textarea name="diagnosis" rows="5" placeholder="Enter patient diagnosis..."
+                            required></textarea>
+                    </div>
 
-        <button type="submit">Save Prescription</button>
-    </form>
+                    <div style="margin-bottom: 24px;">
+                        <label>Prescription / Medicines</label>
+                        <textarea name="medicines" rows="8" placeholder="Rx: Medicine details..." required></textarea>
+                    </div>
 
-</div>
+                    <div style="display: flex; justify-content: flex-end; gap: 16px; margin-top: 32px;">
+                        <button type="button" onclick="window.close()" class="btn btn-secondary">Cancel</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Submit Prescription
+                        </button>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
 
 </body>
+
 </html>
